@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Reservacion de Espacios</title>
+  <style>
+    :root {
+      --bg: #f3f7fb;
+      --card: #ffffff;
+      --primary: #0c4a6e;
+      --accent: #16a34a;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(180deg, #e0f2fe 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    input {
+      flex: 1 1 420px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background: #075985;
+    }
+
+    .status {
+      margin: 10px 0;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 16px;
+      border-radius: 12px;
+      overflow: auto;
+      min-height: 180px;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="card">
+      <h1>Sistema Serverless de Reservacion de Espacios en Campus</h1>
+      <p>
+        Frontend minimo para validar la infraestructura base. Este sitio consulta
+        el endpoint <strong>GET /espacios</strong> publicado en API Gateway.
+      </p>
+
+      <div class="controls">
+        <input
+          id="apiUrl"
+          type="text"
+          placeholder="Pega aqui tu URL de API Gateway, por ejemplo: https://abc123.execute-api.us-east-1.amazonaws.com/prod/espacios"
+        />
+        <button id="loadButton">Consultar espacios</button>
+      </div>
+
+      <div class="status" id="status">Esperando consulta...</div>
+      <pre id="output">Aqui se mostrara la respuesta JSON del endpoint.</pre>
+    </section>
+  </main>
+
+  <script>
+    const button = document.getElementById("loadButton");
+    const output = document.getElementById("output");
+    const status = document.getElementById("status");
+    const apiUrlInput = document.getElementById("apiUrl");
+
+    async function loadSpaces() {
+      const apiUrl = apiUrlInput.value.trim();
+
+      if (!apiUrl) {
+        status.textContent = "Captura primero la URL del endpoint.";
+        output.textContent = "Sin URL configurada.";
+        return;
+      }
+
+      status.textContent = "Consultando API...";
+      output.textContent = "Cargando...";
+
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        status.textContent = `Consulta exitosa. Codigo HTTP: ${response.status}`;
+        output.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        status.textContent = "Error al consultar la API.";
+        output.textContent = JSON.stringify(
+          { error: error.message },
+          null,
+          2
+        );
+      }
+    }
+
+    button.addEventListener("click", loadSpaces);
+  </script>
+</body>
+</html>
+
