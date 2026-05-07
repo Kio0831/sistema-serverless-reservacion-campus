@@ -1,27 +1,38 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema de Reservacion de Espacios</title>
+  <title>CampusFlow | Integracion Frontend</title>
   <style>
     :root {
-      --bg: #ecf3ff;
+      --bg: #f4f8ff;
       --surface: #ffffff;
-      --surface-soft: #f8fbff;
-      --primary: #0f3d75;
-      --primary-strong: #082f5a;
-      --accent: #0f766e;
-      --success: #15803d;
-      --danger: #b91c1c;
-      --text: #142033;
-      --muted: #5b6b80;
-      --border: #d7e2f0;
-      --shadow: 0 18px 50px rgba(15, 61, 117, 0.12);
+      --surface-soft: #eef5ff;
+      --line: #d4dfef;
+      --text: #162134;
+      --muted: #5f6f84;
+      --primary: #0e4d92;
+      --primary-strong: #073761;
+      --secondary: #0f766e;
+      --success-bg: #dcfce7;
+      --success-text: #166534;
+      --danger-bg: #fee2e2;
+      --danger-text: #991b1b;
+      --warning-bg: #fff7d6;
+      --warning-text: #92400e;
+      --shadow: 0 18px 40px rgba(14, 77, 146, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
     }
 
     * {
       box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -29,97 +40,183 @@
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 25%),
-        radial-gradient(circle at top right, rgba(20, 184, 166, 0.18), transparent 22%),
-        linear-gradient(180deg, #f8fbff 0%, var(--bg) 55%, #e5eefb 100%);
-      min-height: 100vh;
+        radial-gradient(circle at top left, rgba(14, 77, 146, 0.18), transparent 22%),
+        radial-gradient(circle at top right, rgba(15, 118, 110, 0.16), transparent 18%),
+        linear-gradient(180deg, #f9fbff 0%, var(--bg) 54%, #eaf1fb 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
     .container {
-      max-width: 1080px;
+      max-width: 1240px;
       margin: 0 auto;
-      padding: 40px 20px 56px;
+      padding: 28px 20px 56px;
     }
 
     .hero {
-      background: linear-gradient(135deg, rgba(15, 61, 117, 0.96), rgba(15, 118, 110, 0.9));
-      color: white;
-      border-radius: 28px;
-      padding: 32px;
+      background: linear-gradient(135deg, rgba(7, 55, 97, 0.96), rgba(15, 118, 110, 0.92));
+      color: #fff;
+      border-radius: var(--radius-xl);
+      padding: 34px;
       box-shadow: var(--shadow);
-      margin-bottom: 24px;
       position: relative;
       overflow: hidden;
+      margin-bottom: 24px;
     }
 
+    .hero::before,
     .hero::after {
       content: "";
       position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.11);
+    }
+
+    .hero::before {
       width: 220px;
       height: 220px;
-      right: -60px;
-      top: -80px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.12);
+      right: -90px;
+      top: -90px;
+    }
+
+    .hero::after {
+      width: 180px;
+      height: 180px;
+      left: -70px;
+      bottom: -90px;
     }
 
     .badge {
-      display: inline-block;
-      padding: 6px 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
       border-radius: 999px;
+      font-size: 0.9rem;
       background: rgba(255, 255, 255, 0.14);
       border: 1px solid rgba(255, 255, 255, 0.24);
-      font-size: 0.9rem;
-      margin-bottom: 14px;
-    }
-
-    h1 {
-      margin: 0 0 12px;
-      font-size: clamp(2rem, 5vw, 3rem);
-      line-height: 1.1;
-    }
-
-    .hero p {
-      margin: 0;
-      max-width: 720px;
-      color: rgba(255, 255, 255, 0.9);
-      line-height: 1.7;
-    }
-
-    .panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
-
-    .controls {
-      display: grid;
-      grid-template-columns: 1.6fr auto auto;
-      gap: 12px;
-      align-items: center;
       margin-bottom: 18px;
     }
 
-    input {
-      width: 100%;
-      padding: 14px 16px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      font-size: 1rem;
-      color: var(--text);
-      background: #fff;
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      line-height: 1.06;
+      max-width: 860px;
+    }
+
+    .hero p {
+      margin: 0 0 22px;
+      max-width: 760px;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.65;
+      font-size: 1.02rem;
+    }
+
+    .quick-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .quick-nav a {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      font-weight: 600;
+    }
+
+    .status-banner {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      padding: 16px 18px;
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .status-banner strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .status-banner small {
+      color: var(--muted);
+    }
+
+    .status-chip {
+      min-width: 180px;
+      text-align: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      color: var(--primary);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .section-card {
+      grid-column: span 12;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .section-card.half {
+      grid-column: span 6;
+    }
+
+    .section-card h2 {
+      margin: 0 0 10px;
+      color: var(--primary-strong);
+      font-size: 1.65rem;
+    }
+
+    .section-card p.lead {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     button {
       border: none;
-      border-radius: 14px;
-      padding: 14px 18px;
-      font-size: 0.98rem;
-      font-weight: 700;
+      border-radius: var(--radius-md);
+      padding: 13px 18px;
       cursor: pointer;
-      transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+      font-weight: 700;
+      font-size: 0.96rem;
+      transition: transform 0.15s ease, opacity 0.15s ease;
     }
 
     button:hover {
@@ -127,139 +224,259 @@
       opacity: 0.96;
     }
 
-    .primary-btn {
+    .btn-primary {
       background: var(--primary);
-      color: white;
+      color: #fff;
     }
 
-    .secondary-btn {
-      background: #dff7f4;
-      color: #0f5d57;
-      border: 1px solid #b9ece5;
+    .btn-secondary {
+      background: #d9f5ef;
+      color: #0e6b64;
+      border: 1px solid #b6e8df;
     }
 
-    .meta {
+    .btn-light {
+      background: #edf4ff;
+      color: var(--primary-strong);
+      border: 1px solid #d7e6fa;
+    }
+
+    .summary-grid {
       display: grid;
-      grid-template-columns: 1.3fr 0.7fr;
-      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
       margin-bottom: 18px;
     }
 
-    .status-box,
-    .summary-box {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 16px 18px;
+    .summary-item {
       background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
     }
 
-    .label {
+    .summary-item .label {
+      color: var(--muted);
       font-size: 0.82rem;
-      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    .status {
-      font-size: 1rem;
+      margin-bottom: 8px;
       font-weight: 700;
-      color: var(--primary);
     }
 
-    .summary {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      color: var(--muted);
+    .summary-item .value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary-strong);
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 16px;
-      margin-bottom: 18px;
     }
 
-    .space-card {
-      background: white;
-      border: 1px solid var(--border);
+    .item-card {
+      border: 1px solid var(--line);
       border-radius: 20px;
       padding: 18px;
-      box-shadow: 0 10px 24px rgba(15, 61, 117, 0.08);
+      background: #fff;
+      box-shadow: 0 12px 24px rgba(15, 61, 117, 0.08);
     }
 
-    .space-card h3 {
-      margin: 0 0 8px;
+    .item-card h3 {
+      margin: 0 0 10px;
       color: var(--primary-strong);
-      font-size: 1.15rem;
+      font-size: 1.08rem;
     }
 
-    .space-card p {
+    .item-card p {
       margin: 6px 0;
-      color: var(--muted);
       line-height: 1.5;
+      color: var(--muted);
     }
 
-    .tag {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 6px 10px;
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      padding: 7px 11px;
       border-radius: 999px;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       font-weight: 700;
     }
 
-    .tag.available {
-      background: #dcfce7;
-      color: var(--success);
+    .pill.ok {
+      background: var(--success-bg);
+      color: var(--success-text);
     }
 
-    .tag.unavailable {
-      background: #fee2e2;
-      color: var(--danger);
+    .pill.bad {
+      background: var(--danger-bg);
+      color: var(--danger-text);
     }
 
-    .json-panel {
-      margin-top: 10px;
+    .pill.warn {
+      background: var(--warning-bg);
+      color: var(--warning-text);
     }
 
-    pre {
-      margin: 0;
-      background: #0f172a;
-      color: #e2e8f0;
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .subpanel {
+      border: 1px solid var(--line);
+      border-radius: 22px;
       padding: 18px;
+      background: var(--surface-soft);
+    }
+
+    .subpanel h3 {
+      margin: 0 0 10px;
+      color: var(--primary-strong);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--primary-strong);
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-size: 0.96rem;
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .message {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid transparent;
+      display: none;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.success {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border-color: #bbf7d0;
+    }
+
+    .message.error {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border-color: #fecaca;
+    }
+
+    .message.info {
+      background: #e0f2fe;
+      color: #0c4a6e;
+      border-color: #bae6fd;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .list-item {
+      border: 1px solid var(--line);
       border-radius: 18px;
-      overflow: auto;
-      min-height: 180px;
-      border: 1px solid #1e293b;
+      background: #fff;
+      padding: 16px;
     }
 
-    .helper {
-      margin-top: 12px;
+    .list-item strong {
+      color: var(--primary-strong);
+    }
+
+    .helper-box {
+      margin-top: 18px;
+      border-radius: 18px;
+      border: 1px dashed #c8d6ea;
+      background: #f8fbff;
+      padding: 16px;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
-    @media (max-width: 820px) {
-      .controls,
-      .meta {
+    code {
+      background: #e9f2ff;
+      color: var(--primary-strong);
+      padding: 1px 6px;
+      border-radius: 8px;
+      font-size: 0.95em;
+    }
+
+    footer {
+      margin-top: 26px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 980px) {
+      .section-card.half {
+        grid-column: span 12;
+      }
+
+      .panel-grid,
+      .form-grid {
         grid-template-columns: 1fr;
       }
+    }
 
-      button {
-        width: 100%;
-      }
-
+    @media (max-width: 720px) {
       .container {
-        padding: 24px 16px 40px;
+        padding: 20px 14px 40px;
       }
 
       .hero,
-      .panel {
+      .section-card {
         padding: 20px;
+      }
+
+      .status-banner {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -267,157 +484,528 @@
 <body>
   <main class="container">
     <section class="hero">
-      <span class="badge">Entregable 3 · Demo funcional</span>
-      <h1>Sistema Serverless de Reservacion de Espacios en Campus</h1>
+      <div class="badge">Entrega 6 · Integracion Frontend</div>
+      <h1>CampusFlow conecta la UI con el backend y la base de datos real</h1>
       <p>
-        Este frontend permite probar la consulta del endpoint <strong>GET /espacios</strong>.
-        Puedes usar una URL real de API Gateway o ejecutar un modo demo local mientras
-        se habilitan los permisos de AWS.
+        Esta interfaz consume APIs reales desplegadas en API Gateway. Desde aqui se pueden
+        consultar espacios y eventos, crear reservaciones, registrar asistentes y visualizar
+        datos persistidos sin depender de informacion hardcodeada.
       </p>
+      <nav class="quick-nav">
+        <a href="#espacios">Espacios</a>
+        <a href="#reservaciones">Reservaciones</a>
+        <a href="#eventos">Eventos</a>
+        <a href="#registros">Registros</a>
+      </nav>
     </section>
 
-    <section class="panel">
-      <div class="controls">
-        <input
-          id="apiUrl"
-          type="text"
-          placeholder="Pega aqui tu URL de API Gateway, por ejemplo: https://abc123.execute-api.us-east-2.amazonaws.com/prod/espacios"
-        />
-        <button id="loadButton" class="primary-btn">Consultar endpoint</button>
-        <button id="demoButton" class="secondary-btn">Cargar demo local</button>
+    <section class="status-banner">
+      <div>
+        <strong>Estado general del frontend</strong>
+        <small>La aplicacion consulta y registra informacion usando tus APIs reales en AWS.</small>
       </div>
+      <div class="status-chip" id="globalStatus">Listo para probar</div>
+    </section>
 
-      <div class="meta">
-        <div class="status-box">
-          <div class="label">Estado</div>
-          <div class="status" id="status">Esperando consulta...</div>
-        </div>
-        <div class="summary-box">
-          <div class="label">Resumen</div>
-          <div class="summary">
-            <span id="totalSpaces">Espacios: 0</span>
-            <span id="dataSource">Fuente: sin datos</span>
+    <div class="grid">
+      <section class="section-card half" id="espacios">
+        <h2>Proyecto A · Catalogo de espacios</h2>
+        <p class="lead">
+          Consulta los espacios disponibles desde el backend y visualiza la informacion que vive en la base de datos.
+        </p>
+
+        <div class="toolbar">
+          <div>
+            <strong>Endpoint GET consumido:</strong>
+            <code>/espacios</code>
+          </div>
+          <div class="toolbar-actions">
+            <button class="btn-primary" id="loadSpacesButton">Consultar espacios</button>
           </div>
         </div>
-      </div>
 
-      <div class="cards" id="cards"></div>
+        <div class="summary-grid">
+          <article class="summary-item">
+            <div class="label">API base</div>
+            <div class="value" style="font-size: 1rem;">EspaciosCrudAPI</div>
+          </article>
+          <article class="summary-item">
+            <div class="label">Total espacios</div>
+            <div class="value" id="spacesTotal">0</div>
+          </article>
+          <article class="summary-item">
+            <div class="label">Disponibles</div>
+            <div class="value" id="spacesAvailable">0</div>
+          </article>
+        </div>
 
-      <div class="json-panel">
-        <div class="label">Respuesta JSON</div>
-        <pre id="output">Aqui se mostrara la respuesta JSON del endpoint o del modo demo.</pre>
-      </div>
+        <div class="message info show" id="spacesStatus">Aun no se consulta la lista de espacios.</div>
+        <div class="cards" id="spacesList"></div>
+      </section>
 
-      <p class="helper">
-        Recomendacion para la evidencia: si AWS sigue bloqueado, usa el boton <strong>Cargar demo local</strong>
-        para mostrar el comportamiento esperado del sistema y despues documenta que el despliegue real quedo
-        pendiente por permisos institucionales.
-      </p>
-    </section>
+      <section class="section-card half" id="reservaciones">
+        <h2>Proyecto A · Crear reservacion</h2>
+        <p class="lead">
+          Llena el formulario y registra una reservacion real. El backend valida espacios, fechas y traslapes antes de guardar.
+        </p>
+
+        <div class="panel-grid">
+          <section class="subpanel">
+            <h3>Nueva reservacion</h3>
+            <form id="reservationForm">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="reservationSpaceId">Espacio ID</label>
+                  <input id="reservationSpaceId" name="espacio_id" type="number" min="1" required />
+                </div>
+                <div class="field">
+                  <label for="reservationName">Solicitante</label>
+                  <input id="reservationName" name="solicitante_nombre" type="text" required />
+                </div>
+                <div class="field">
+                  <label for="reservationEmail">Correo</label>
+                  <input id="reservationEmail" name="solicitante_email" type="email" required />
+                </div>
+                <div class="field">
+                  <label for="reservationStart">Fecha inicio</label>
+                  <input id="reservationStart" name="fecha_inicio" type="datetime-local" required />
+                </div>
+                <div class="field">
+                  <label for="reservationEnd">Fecha fin</label>
+                  <input id="reservationEnd" name="fecha_fin" type="datetime-local" required />
+                </div>
+                <div class="field full">
+                  <label for="reservationReason">Motivo</label>
+                  <textarea id="reservationReason" name="motivo" required></textarea>
+                </div>
+              </div>
+              <div class="toolbar-actions" style="margin-top: 14px;">
+                <button type="submit" class="btn-primary">Guardar reservacion</button>
+                <button type="button" class="btn-light" id="reloadReservationsButton">Consultar reservaciones</button>
+              </div>
+            </form>
+            <div class="message info show" id="reservationsStatus">Todavia no se ha enviado ninguna reservacion.</div>
+          </section>
+
+          <section class="subpanel">
+            <h3>Reservaciones almacenadas</h3>
+            <div class="list" id="reservationsList"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section-card half" id="eventos">
+        <h2>Proyecto B · Catalogo de eventos</h2>
+        <p class="lead">
+          Consulta los eventos almacenados y visualiza el cupo real administrado por el backend transaccional.
+        </p>
+
+        <div class="toolbar">
+          <div>
+            <strong>Endpoint GET consumido:</strong>
+            <code>/eventos</code>
+          </div>
+          <div class="toolbar-actions">
+            <button class="btn-primary" id="loadEventsButton">Consultar eventos</button>
+          </div>
+        </div>
+
+        <div class="summary-grid">
+          <article class="summary-item">
+            <div class="label">API base</div>
+            <div class="value" style="font-size: 1rem;">EventosCrudAPI</div>
+          </article>
+          <article class="summary-item">
+            <div class="label">Total eventos</div>
+            <div class="value" id="eventsTotal">0</div>
+          </article>
+          <article class="summary-item">
+            <div class="label">Con cupo</div>
+            <div class="value" id="eventsCapacity">0</div>
+          </article>
+        </div>
+
+        <div class="message info show" id="eventsStatus">Aun no se consulta la lista de eventos.</div>
+        <div class="cards" id="eventsList"></div>
+      </section>
+
+      <section class="section-card half" id="registros">
+        <h2>Proyecto B · Registrar asistente</h2>
+        <p class="lead">
+          Registra asistentes a eventos reales. El backend evita duplicados y controla el flujo de registros activos.
+        </p>
+
+        <div class="panel-grid">
+          <section class="subpanel">
+            <h3>Nuevo registro</h3>
+            <form id="registrationForm">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="registrationEventId">Evento ID</label>
+                  <input id="registrationEventId" name="evento_id" type="number" min="1" required />
+                </div>
+                <div class="field">
+                  <label for="registrationUserId">Usuario ID</label>
+                  <input id="registrationUserId" name="usuario_id" type="number" min="1" required />
+                </div>
+                <div class="field">
+                  <label for="registrationName">Nombre</label>
+                  <input id="registrationName" name="usuario_nombre" type="text" required />
+                </div>
+                <div class="field">
+                  <label for="registrationEmail">Correo</label>
+                  <input id="registrationEmail" name="usuario_email" type="email" required />
+                </div>
+              </div>
+              <div class="toolbar-actions" style="margin-top: 14px;">
+                <button type="submit" class="btn-primary">Registrar asistente</button>
+                <button type="button" class="btn-light" id="reloadRegistrationsButton">Consultar registros</button>
+              </div>
+            </form>
+            <div class="message info show" id="registrationsStatus">Aun no se ha enviado ningun registro.</div>
+          </section>
+
+          <section class="subpanel">
+            <h3>Registros almacenados</h3>
+            <div class="list" id="registrationsList"></div>
+          </section>
+        </div>
+
+        <div class="helper-box">
+          Caso de error sugerido para la evidencia: intenta registrar dos veces el mismo usuario en el mismo evento.
+          La UI debe mostrar el mensaje devuelto por el backend y no permitir un duplicado silencioso.
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      Frontend conectado con AWS S3, API Gateway, Lambda y MySQL para demostrar el flujo completo de punta a punta.
+    </footer>
   </main>
 
   <script>
-    const button = document.getElementById("loadButton");
-    const demoButton = document.getElementById("demoButton");
-    const output = document.getElementById("output");
-    const status = document.getElementById("status");
-    const apiUrlInput = document.getElementById("apiUrl");
-    const cards = document.getElementById("cards");
-    const totalSpaces = document.getElementById("totalSpaces");
-    const dataSource = document.getElementById("dataSource");
-
-    const demoResponse = {
-      mensaje: "Consulta de espacios exitosa",
-      total: 3,
-      espacios: [
-        {
-          id: "A101",
-          nombre: "Aula A101",
-          edificio: "Edificio A",
-          capacidad: 30,
-          disponible: true
-        },
-        {
-          id: "LAB2",
-          nombre: "Laboratorio 2",
-          edificio: "Edificio de Ingenieria",
-          capacidad: 25,
-          disponible: false
-        },
-        {
-          id: "AUD1",
-          nombre: "Auditorio Principal",
-          edificio: "Centro Cultural",
-          capacidad: 120,
-          disponible: true
-        }
-      ]
+    const API_BASES = {
+      spaces: "https://gad0l0uo8l.execute-api.us-east-1.amazonaws.com/prod",
+      events: "https://nqexws2921.execute-api.us-east-1.amazonaws.com/prod"
     };
 
-    function renderCards(espacios) {
+    const globalStatus = document.getElementById("globalStatus");
+
+    const spacesStatus = document.getElementById("spacesStatus");
+    const spacesList = document.getElementById("spacesList");
+    const spacesTotal = document.getElementById("spacesTotal");
+    const spacesAvailable = document.getElementById("spacesAvailable");
+
+    const reservationsStatus = document.getElementById("reservationsStatus");
+    const reservationsList = document.getElementById("reservationsList");
+    const reservationForm = document.getElementById("reservationForm");
+
+    const eventsStatus = document.getElementById("eventsStatus");
+    const eventsList = document.getElementById("eventsList");
+    const eventsTotal = document.getElementById("eventsTotal");
+    const eventsCapacity = document.getElementById("eventsCapacity");
+
+    const registrationsStatus = document.getElementById("registrationsStatus");
+    const registrationsList = document.getElementById("registrationsList");
+    const registrationForm = document.getElementById("registrationForm");
+
+    function setGlobalStatus(text) {
+      globalStatus.textContent = text;
+    }
+
+    function showMessage(element, text, type) {
+      element.textContent = text;
+      element.className = `message ${type} show`;
+    }
+
+    function clearList(element, fallbackText) {
+      element.innerHTML = `<div class="list-item">${fallbackText}</div>`;
+    }
+
+    async function requestJson(url, options = {}) {
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        ...options
+      });
+
+      let data = null;
+      try {
+        data = await response.json();
+      } catch (error) {
+        data = { message: "No se pudo interpretar la respuesta del servidor." };
+      }
+
+      if (!response.ok) {
+        const message = data.mensaje || data.message || `Error HTTP ${response.status}`;
+        throw new Error(message);
+      }
+
+      return data;
+    }
+
+    function renderSpaces(espacios) {
       if (!Array.isArray(espacios) || espacios.length === 0) {
-        cards.innerHTML = "";
+        clearList(spacesList, "No hay espacios disponibles para mostrar.");
+        spacesTotal.textContent = "0";
+        spacesAvailable.textContent = "0";
         return;
       }
 
-      cards.innerHTML = espacios.map((espacio) => `
-        <article class="space-card">
-          <h3>${espacio.nombre}</h3>
-          <p><strong>ID:</strong> ${espacio.id}</p>
-          <p><strong>Edificio:</strong> ${espacio.edificio}</p>
-          <p><strong>Capacidad:</strong> ${espacio.capacidad} personas</p>
-          <span class="tag ${espacio.disponible ? "available" : "unavailable"}">
-            ${espacio.disponible ? "Disponible" : "No disponible"}
-          </span>
+      const disponibles = espacios.filter((espacio) => Number(espacio.disponible) === 1 || espacio.disponible === true).length;
+
+      spacesTotal.textContent = String(espacios.length);
+      spacesAvailable.textContent = String(disponibles);
+
+      spacesList.innerHTML = espacios.map((espacio) => {
+        const disponible = Number(espacio.disponible) === 1 || espacio.disponible === true;
+        return `
+          <article class="item-card">
+            <h3>${espacio.nombre}</h3>
+            <p><strong>ID:</strong> ${espacio.id}</p>
+            <p><strong>Edificio:</strong> ${espacio.edificio}</p>
+            <p><strong>Capacidad:</strong> ${espacio.capacidad} personas</p>
+            <span class="pill ${disponible ? "ok" : "bad"}">${disponible ? "Disponible" : "No disponible"}</span>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderReservations(reservaciones) {
+      if (!Array.isArray(reservaciones) || reservaciones.length === 0) {
+        clearList(reservationsList, "Aun no existen reservaciones almacenadas.");
+        return;
+      }
+
+      reservationsList.innerHTML = reservaciones.map((item) => {
+        const activa = item.estado !== "cancelada";
+        return `
+          <article class="list-item">
+            <strong>Reservacion #${item.id}</strong><br />
+            Espacio: ${item.espacio_id} · Solicitante: ${item.solicitante_nombre}<br />
+            Inicio: ${formatDate(item.fecha_inicio)} · Fin: ${formatDate(item.fecha_fin)}<br />
+            Motivo: ${item.motivo}<br />
+            <span class="pill ${activa ? "ok" : "warn"}">${item.estado || (activa ? "activa" : "cancelada")}</span>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderEvents(eventos) {
+      if (!Array.isArray(eventos) || eventos.length === 0) {
+        clearList(eventsList, "No hay eventos disponibles para mostrar.");
+        eventsTotal.textContent = "0";
+        eventsCapacity.textContent = "0";
+        return;
+      }
+
+      const conCupo = eventos.filter((evento) => Number(evento.cupo_disponible ?? 0) > 0).length;
+
+      eventsTotal.textContent = String(eventos.length);
+      eventsCapacity.textContent = String(conCupo);
+
+      eventsList.innerHTML = eventos.map((evento) => `
+        <article class="item-card">
+          <h3>${evento.titulo}</h3>
+          <p><strong>ID:</strong> ${evento.id}</p>
+          <p><strong>Fecha:</strong> ${formatDate(evento.fecha)}</p>
+          <p><strong>Espacio:</strong> ${evento.espacio_id}</p>
+          <p><strong>Responsable:</strong> ${evento.responsable}</p>
+          <p><strong>Cupo:</strong> ${evento.cupo_disponible ?? "N/D"} / ${evento.cupo_maximo ?? "N/D"}</p>
         </article>
       `).join("");
     }
 
-    function renderResponse(data, sourceLabel) {
-      const espacios = Array.isArray(data.espacios) ? data.espacios : [];
-      status.textContent = data.mensaje || "Consulta completada.";
-      output.textContent = JSON.stringify(data, null, 2);
-      totalSpaces.textContent = `Espacios: ${data.total ?? espacios.length}`;
-      dataSource.textContent = `Fuente: ${sourceLabel}`;
-      renderCards(espacios);
-    }
-
-    async function loadSpaces() {
-      const apiUrl = apiUrlInput.value.trim();
-
-      if (!apiUrl) {
-        status.textContent = "Captura primero la URL del endpoint.";
-        output.textContent = "Sin URL configurada.";
-        totalSpaces.textContent = "Espacios: 0";
-        dataSource.textContent = "Fuente: sin datos";
-        cards.innerHTML = "";
+    function renderRegistrations(registros) {
+      if (!Array.isArray(registros) || registros.length === 0) {
+        clearList(registrationsList, "Aun no existen registros de asistentes.");
         return;
       }
 
-      status.textContent = "Consultando API...";
-      output.textContent = "Cargando...";
-      dataSource.textContent = "Fuente: API Gateway";
+      registrationsList.innerHTML = registros.map((registro) => {
+        const activo = registro.estado !== "cancelado";
+        return `
+          <article class="list-item">
+            <strong>Registro #${registro.id}</strong><br />
+            Evento: ${registro.evento_id} · Usuario: ${registro.usuario_nombre} (${registro.usuario_id})<br />
+            Correo: ${registro.usuario_email}<br />
+            Estado: <span class="pill ${activo ? "ok" : "warn"}">${registro.estado}</span>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function formatDate(value) {
+      if (!value) {
+        return "Sin fecha";
+      }
+
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) {
+        return value;
+      }
+
+      return date.toLocaleString("es-MX", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function toApiDate(localDateTime) {
+      return localDateTime.replace("T", " ") + ":00";
+    }
+
+    async function loadSpaces() {
+      setGlobalStatus("Consultando espacios...");
+      showMessage(spacesStatus, "Consultando espacios desde el backend...", "info");
 
       try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        const sourceLabel = `API Gateway · HTTP ${response.status}`;
-        renderResponse(data, sourceLabel);
+        const data = await requestJson(`${API_BASES.spaces}/espacios`);
+        renderSpaces(data.espacios);
+        showMessage(spacesStatus, data.mensaje || "Consulta de espacios exitosa.", "success");
+        setGlobalStatus("Espacios cargados");
       } catch (error) {
-        status.textContent = "Error al consultar la API.";
-        output.textContent = JSON.stringify({ error: error.message }, null, 2);
-        totalSpaces.textContent = "Espacios: 0";
-        dataSource.textContent = "Fuente: error";
-        cards.innerHTML = "";
+        showMessage(spacesStatus, error.message, "error");
+        setGlobalStatus("Error al consultar espacios");
       }
     }
 
-    function loadDemo() {
-      renderResponse(demoResponse, "Demo local");
+    async function loadReservaciones() {
+      setGlobalStatus("Consultando reservaciones...");
+      showMessage(reservationsStatus, "Consultando reservaciones almacenadas...", "info");
+
+      try {
+        const data = await requestJson(`${API_BASES.spaces}/reservaciones`);
+        renderReservations(data.reservaciones);
+        showMessage(reservationsStatus, data.mensaje || "Consulta de reservaciones exitosa.", "success");
+        setGlobalStatus("Reservaciones cargadas");
+      } catch (error) {
+        showMessage(reservationsStatus, error.message, "error");
+        setGlobalStatus("Error al consultar reservaciones");
+      }
     }
 
-    button.addEventListener("click", loadSpaces);
-    demoButton.addEventListener("click", loadDemo);
+    async function loadEvents() {
+      setGlobalStatus("Consultando eventos...");
+      showMessage(eventsStatus, "Consultando eventos desde el backend...", "info");
+
+      try {
+        const data = await requestJson(`${API_BASES.events}/eventos`);
+        renderEvents(data.eventos);
+        showMessage(eventsStatus, data.mensaje || "Consulta de eventos exitosa.", "success");
+        setGlobalStatus("Eventos cargados");
+      } catch (error) {
+        showMessage(eventsStatus, error.message, "error");
+        setGlobalStatus("Error al consultar eventos");
+      }
+    }
+
+    async function loadRegistros() {
+      setGlobalStatus("Consultando registros...");
+      showMessage(registrationsStatus, "Consultando registros almacenados...", "info");
+
+      try {
+        const data = await requestJson(`${API_BASES.events}/registros`);
+        renderRegistrations(data.registros);
+        showMessage(registrationsStatus, data.mensaje || "Consulta de registros exitosa.", "success");
+        setGlobalStatus("Registros cargados");
+      } catch (error) {
+        showMessage(registrationsStatus, error.message, "error");
+        setGlobalStatus("Error al consultar registros");
+      }
+    }
+
+    reservationForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(reservationForm);
+      const payload = {
+        espacio_id: Number(formData.get("espacio_id")),
+        solicitante_nombre: String(formData.get("solicitante_nombre") || "").trim(),
+        solicitante_email: String(formData.get("solicitante_email") || "").trim(),
+        fecha_inicio: toApiDate(String(formData.get("fecha_inicio") || "")),
+        fecha_fin: toApiDate(String(formData.get("fecha_fin") || "")),
+        motivo: String(formData.get("motivo") || "").trim()
+      };
+
+      if (!payload.espacio_id || !payload.solicitante_nombre || !payload.solicitante_email || !payload.motivo) {
+        showMessage(reservationsStatus, "Completa todos los campos requeridos antes de guardar la reservacion.", "error");
+        return;
+      }
+
+      if (!formData.get("fecha_inicio") || !formData.get("fecha_fin")) {
+        showMessage(reservationsStatus, "Captura una fecha de inicio y una fecha de fin validas.", "error");
+        return;
+      }
+
+      setGlobalStatus("Guardando reservacion...");
+      showMessage(reservationsStatus, "Enviando reservacion al backend...", "info");
+
+      try {
+        const data = await requestJson(`${API_BASES.spaces}/reservaciones`, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+        showMessage(reservationsStatus, `${data.mensaje || "Reservacion creada correctamente."} ID generado: ${data.id}.`, "success");
+        reservationForm.reset();
+        await loadReservaciones();
+      } catch (error) {
+        showMessage(reservationsStatus, error.message, "error");
+        setGlobalStatus("Error al guardar reservacion");
+      }
+    });
+
+    registrationForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(registrationForm);
+      const payload = {
+        evento_id: Number(formData.get("evento_id")),
+        usuario_id: Number(formData.get("usuario_id")),
+        usuario_nombre: String(formData.get("usuario_nombre") || "").trim(),
+        usuario_email: String(formData.get("usuario_email") || "").trim()
+      };
+
+      if (!payload.evento_id || !payload.usuario_id || !payload.usuario_nombre || !payload.usuario_email) {
+        showMessage(registrationsStatus, "Completa todos los campos del registro antes de enviarlo.", "error");
+        return;
+      }
+
+      setGlobalStatus("Guardando registro...");
+      showMessage(registrationsStatus, "Enviando registro al backend...", "info");
+
+      try {
+        const data = await requestJson(`${API_BASES.events}/registros`, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+        showMessage(registrationsStatus, `${data.mensaje || "Registro creado correctamente."} ID generado: ${data.id}.`, "success");
+        registrationForm.reset();
+        await loadRegistros();
+        await loadEvents();
+      } catch (error) {
+        showMessage(registrationsStatus, error.message, "error");
+        setGlobalStatus("Error al guardar registro");
+      }
+    });
+
+    document.getElementById("loadSpacesButton").addEventListener("click", loadSpaces);
+    document.getElementById("reloadReservationsButton").addEventListener("click", loadReservaciones);
+    document.getElementById("loadEventsButton").addEventListener("click", loadEvents);
+    document.getElementById("reloadRegistrationsButton").addEventListener("click", loadRegistros);
+
+    Promise.allSettled([
+      loadSpaces(),
+      loadReservaciones(),
+      loadEvents(),
+      loadRegistros()
+    ]).finally(() => {
+      setGlobalStatus("Frontend sincronizado");
+    });
   </script>
 </body>
 </html>
