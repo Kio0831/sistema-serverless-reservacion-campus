@@ -6,3 +6,4 @@ coverage/
 *.zip
 .env
 
+build/
