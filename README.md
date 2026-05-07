@@ -22,7 +22,8 @@ El proyecto ya cuenta con:
 |-- docs/
 |   |-- checklist-evidencias.md
 |   |-- entregable-3.md
-|   `-- entregable-4.md
+|   |-- entregable-4.md
+|   `-- entregable-5.md
 |-- frontend/
 |   `-- index.html
 |-- lambda/
@@ -30,7 +31,11 @@ El proyecto ya cuenta con:
 |   |   `-- index.js
 |   |-- espaciosCrud/
 |   |   `-- index.mjs
-|   `-- eventosCrud/
+|   |-- eventosCrud/
+|   |   `-- index.mjs
+|   |-- reservacionesService/
+|   |   `-- index.mjs
+|   `-- registrosService/
 |       `-- index.mjs
 |-- sql/
 |   `-- schema-entrega-4.sql
@@ -76,3 +81,9 @@ npm install
 
 La siguiente etapa del proyecto consiste en conectar las Lambdas `espaciosCrud` y `eventosCrud` con la base `proyectofinal`, crear las tablas base y validar ambos CRUD con Postman.
 
+
+## Entrega 5
+
+La carpeta local ya incluye dos servicios transaccionales preparados para despliegue:
+
+- POST /reservaciones, GET /reservaciones, PATCH /reservaciones/{id}/cancelar`n- POST /registros, GET /registros, GET /eventos/{eventoId}/registros, GET /usuarios/{usuarioId}/eventos, PATCH /registros/{id}/cancelar`n
