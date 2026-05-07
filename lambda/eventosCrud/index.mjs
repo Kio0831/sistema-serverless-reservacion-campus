@@ -1,6 +1,7 @@
 ﻿import mysql from "mysql2/promise";
 
 let connection;
+let schemaReady = false;
 
 async function getConnection() {
   if (connection) {
@@ -16,6 +17,41 @@ async function getConnection() {
   });
 
   return connection;
+}
+
+async function ensureSchema(conn) {
+  if (schemaReady) {
+    return;
+  }
+
+  await conn.execute(
+    `CREATE TABLE IF NOT EXISTS espacios (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      nombre VARCHAR(100) NOT NULL,
+      edificio VARCHAR(100) NOT NULL,
+      capacidad INT NOT NULL,
+      disponible BOOLEAN NOT NULL DEFAULT TRUE,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`
+  );
+
+  await conn.execute(
+    `CREATE TABLE IF NOT EXISTS eventos (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      titulo VARCHAR(150) NOT NULL,
+      fecha DATETIME NOT NULL,
+      espacio_id INT NOT NULL,
+      responsable VARCHAR(100) NOT NULL,
+      descripcion TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT fk_eventos_espacios
+        FOREIGN KEY (espacio_id) REFERENCES espacios(id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+    )`
+  );
+
+  schemaReady = true;
 }
 
 function response(statusCode, body) {
@@ -121,6 +157,8 @@ export const handler = async (event) => {
 
   try {
     const conn = await getConnection();
+    await ensureSchema(conn);
+
     const method = event.requestContext?.http?.method || event.httpMethod;
     const id = event.pathParameters?.id;
     const body = event.body ? JSON.parse(event.body) : {};

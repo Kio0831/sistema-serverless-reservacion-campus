@@ -1,6 +1,7 @@
 ﻿import mysql from "mysql2/promise";
 
 let connection;
+let schemaReady = false;
 
 async function getConnection() {
   if (connection) {
@@ -16,6 +17,37 @@ async function getConnection() {
   });
 
   return connection;
+}
+
+async function ensureSchema(conn) {
+  if (schemaReady) {
+    return;
+  }
+
+  await conn.execute(
+    `CREATE TABLE IF NOT EXISTS espacios (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      nombre VARCHAR(100) NOT NULL,
+      edificio VARCHAR(100) NOT NULL,
+      capacidad INT NOT NULL,
+      disponible BOOLEAN NOT NULL DEFAULT TRUE,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`
+  );
+
+  const [rows] = await conn.execute("SELECT COUNT(*) AS total FROM espacios");
+
+  if (rows[0].total === 0) {
+    await conn.query(
+      `INSERT INTO espacios (nombre, edificio, capacidad, disponible)
+       VALUES
+        ('Aula A101', 'Edificio A', 30, TRUE),
+        ('Laboratorio 2', 'Edificio de Ingenieria', 25, FALSE),
+        ('Auditorio Principal', 'Centro Cultural', 120, TRUE)`
+    );
+  }
+
+  schemaReady = true;
 }
 
 function response(statusCode, body) {
@@ -117,6 +149,8 @@ export const handler = async (event) => {
 
   try {
     const conn = await getConnection();
+    await ensureSchema(conn);
+
     const method = event.requestContext?.http?.method || event.httpMethod;
     const id = event.pathParameters?.id;
     const body = event.body ? JSON.parse(event.body) : {};
